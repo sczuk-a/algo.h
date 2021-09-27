@@ -977,7 +977,7 @@ namespace algo {
                 list = new ABTreeKnot<T>(NULL);
             }
             
-            // constructor for crating node with data, used when splitting/merging
+            // constructor for creating node with data, used when splitting/merging
             ABTreeNode(int k, bool l, ABTreeNode<T>* p, ABTreeKnot<T>* li):
                 key_count(k), last_layer(l), parent_node(p), list(li), parent_knot(NULL) {}
            
