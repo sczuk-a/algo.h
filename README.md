@@ -262,6 +262,9 @@ Vrátí `true`, pokud se `data` nacházejí ve stromě, jinak `false`.
 
 Časová složitost: `O(log(n))`, kde `n` je počet prvků ve stromě.
 
+---
+
+`tests.cpp` obsahuje několik testů na většinu algoritmů a datových struktur.
 
 ---
 
