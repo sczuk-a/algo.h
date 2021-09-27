@@ -819,7 +819,7 @@ namespace algo {
                             delete node;
                             return -1;
                         }
-                        // is the node has both child, we need to find replacement first
+                        // if the node has both child, we need to find replacement first
                         else {
                             AVLTreeNode<T>* temp = node->right;
                             while(temp->left != end) temp = temp->left;
