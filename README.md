@@ -134,7 +134,7 @@ T DoublyLL<T>::RemoveLast()
 
 Odstraní poslední prvek seznamu a vrátí ho.
 
-# Fronta (FIFO)
+### Fronta (FIFO)
 
 ```cpp
 FIFO<T>
@@ -159,7 +159,7 @@ bool FIFO<T>::IsEmpty()
 Vrátí `true`, pokud je fronta prázdná, jinak `false`.
 
 
-# Zásovník (LIFO)
+### Zásovník (LIFO)
 
 ```cpp
 LIFO<T>
