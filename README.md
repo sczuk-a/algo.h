@@ -1,4 +1,3 @@
-
 # Algoritmická knihovna `algo.h`
 
 ---
@@ -11,46 +10,46 @@ T Min<T>(T a, T b)
 ```
 
 Vrátí větší/menší z 2 prvků na vstupu. 
-Parametr `T` musí mít definovaná operátory `>`,`<`.
+Parametr `T` musí mít definované operátory `>`,`<`.
 
 ```cpp
 int MaxIdx<T>(T* arr, int i, int j)
 int MinIdx<T>(T* arr, int i, int j)
 ```
 Na vstupu obdrží pole `arr` a 2 indexy a vrátí ten, jehož hodnota v poli je větší/menší.
-Parametr `T` musí mít definovaná operátory `>`,`<`.
+Parametr `T` musí mít definované operátory `>`,`<`.
 
 ```cpp
 T ArrMax(T* arr, int len, int* max_idx = NULL)
 T ArrMin(T* arr, int len, int* max_idx = NULL)
 ```
-Na vstupu obdrží pole `arr`, jeho délku a vrátí maxinimálníá/minimální prvek pole. `max_idx`/`min_idx` je volitelný
+Na vstupu obdrží pole `arr`, jeho délku a vrátí maximální/minimální prvek pole. `max_idx`/`min_idx` je volitelný
 parametr a pokud je s ním funkce zavolaná, uloží do něj index maximálního/minimálního prvku.
-Parametr `T` musí mít definovaná operátory `>`,`<`.
+Parametr `T` musí mít definované operátory `>`,`<`.
 
 
 ```cpp
 void ArrSwap<T>(T* arr, int i, int j)
 ```
-Na vstupu obdrží pole `arr` a 2 indexy jejihž hodnoty v poli prohodí.
+Na vstupu obdrží pole `arr` a 2 indexy, jejichž hodnoty v poli prohodí.
 
 ```cpp
 void ArrHeapSort<T>(T* arr, int len, bool rising = true)
 ```
 
-Na vstupu obdrží pole `arr`, jeho délku `len` a volitelný parametr `rising` udávající směr třízení (`true` pro vzestupné,
+Na vstupu obdrží pole `arr`, jeho délku `len` a volitelný parametr `rising` udávající směr třídění (`true` pro vzestupné,
 `false` pro sestupné). Funkce pole setřídí pomocí algoritmu heap sort.
-Parametr `T` musí mít definovaná operátory `>`,`<`, `=` a musí být pomocí nich lineárně uspořádaný.
+Parametr `T` musí mít definované operátory `>`,`<`, `=` a musí být pomocí nich lineárně uspořádaný.
 
 Časová složitost: `O(nlog(n))`, kde `n` značí počet prvků pole.
 Prostorová složitost: `O(1)`
 
 
 ```cpp
-void ArrMergeSorti<T>(T* arr, int len)
+void ArrMergeSort<T>(T* arr, int len)
 ```
 Na vstupu obdrží pole `arr`, a jeho délku `len`. Funkce pole setřídí pomocí algoritmu merge sort.
-Parametr `T` musí mít definovaná operátory `>`,`<`, `=` a musí být pomocí nich lineárně uspořádaný.
+Parametr `T` musí mít definované operátory `>`,`<`, `=` a musí být pomocí nich lineárně uspořádaný.
 
 Časová složitost: `O(nlog(n))`.
 Prostorová složitost: `O(nlog(n))`, kde `n` značí počet prvků pole.
@@ -70,19 +69,19 @@ Prostorová složitost: `O(m)`, kde `n` značí počet prvků pole a `m = Max(ar
 ```cpp
 bool BinarySearch<int>(T* arr, T target, int beg, int end) 
 ```
-Na vstupu obdrží setřízené pole `arr`, hledaný prvek `target` a 2 indexy. Vrátí `true`, pokud se hledaný prvek nachází v
+Na vstupu obdrží setříděné pole `arr`, hledaný prvek `target` a 2 indexy. Vrátí `true`, pokud se hledaný prvek nachází v
 poli mei danými indexy, jinak `false`. 
-Parametr `T` musí mít definovaná operátory `>`,`<`, `=` a musí být pomocí nich lineárně uspořádaný.
+Parametr `T` musí mít definované operátory `>`,`<`, `=` a musí být pomocí nich lineárně uspořádaný.
 
 ## Datové struktury
 
-### Jednostraný spojový seznam
+### Jednostranný spojový seznam
 
 ```cpp
 SinglyLL<T>
 ```
 
-Jednostraný spojový seznam, pro data typu `T`.
+Jednostranný spojový seznam, pro data typu `T`.
 
 ```cpp
 void SinglyLL<T>::Append(T data) 
@@ -101,13 +100,13 @@ Připojí `data` na začátek seznamu.
 T SinglyLL<T>::RemoveFirst()
 ```
 
-Odtraní první prvek seznamu a vrátí ho.
+Odstraní první prvek seznamu a vrátí ho.
 
 ```cpp
 void SinglyLL<T>::Clear()
 ```
 
-Odstrní všechny prvky seznamu.
+Odstraní všechny prvky seznamu.
 
 ```cpp
 bool SinglyLL<T>::IsEmpty()
@@ -122,13 +121,13 @@ int SinglyLL<T>::Length()
 Vrátí počet prvků v seznamu.
 
 
-### Oboustraný spojový seznam
+### Oboustranný spojový seznam
 
 ```cpp
 DoublyLL<T>
 ```
 
-Vše co jednostraný seznam.
+Vše co jednostranný seznam.
 
 ```cpp
 T DoublyLL<T>::RemoveLast()
@@ -161,7 +160,7 @@ bool FIFO<T>::IsEmpty()
 Vrátí `true`, pokud je fronta prázdná, jinak `false`.
 
 
-### Zásovník (LIFO)
+### Zásobník (LIFO)
 
 ```cpp
 LIFO<T>
@@ -191,7 +190,7 @@ Vrátí `true`, pokud je zásobník prázdný, jinak `false`.
 AVLTree<T>
 ```
 
-Parametr `T` musí mít definovaná operátory `>`,`<`, `=` a musí být pomocí nich lineárně uspořádaný.
+Parametr `T` musí mít definované operátory `>`,`<`, `=` a musí být pomocí nich lineárně uspořádaný.
 Binární vyhledávací strom, kde pro každý vrchol platí `|height(left) - height(right)| <= 1`. Pro zachovávání vlastností AVL stromu se používají rotace.
 
 ```cpp
@@ -226,9 +225,9 @@ Vrátí `true`, pokud se `data` nachází ve stromu, jinak `false`.
 ABTree<T>(int _a, int _b)
 ```
 
-Parametr `T` musí mít definovaná operátory `>`,`<`, `=` a musí být pomocí nich lineárně uspořádaný.
+Parametr `T` musí mít definované operátory `>`,`<`, `=` a musí být pomocí nich lineárně uspořádaný.
 
-Vícecestný vyhledávací strom. Všechny vrcholy, vyjma kořene, mají `a` až `b` klíčů. Všechny extrení vrcholy jsou uložené v
+Vícecestný vyhledávací strom. Všechny vrcholy, vyjma kořene, mají `a` až `b` klíčů. Všechny externí vrcholy jsou uložené v
 jedné vrstvě. Kořen má 1 až `b` klíčů.
 
 Při přidávání a odebírání vrcholů vlastnosti zachovávají pomocí rozdělování/spojování vrcholů, které mají moc/málo
