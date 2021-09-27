@@ -179,7 +179,7 @@ namespace algo {
     
     /**
     * Sorts array using heap-sort algorithm.
-    * T(n) = O(n log(n)).
+    * T(n) = O(n log(n)), where n is arr size.
     * S(n) = O(1).
     *
     * @tparam T must be totally ordered and it must have defined >,<,= operators.
@@ -197,7 +197,7 @@ namespace algo {
     /**
     * Sorts array using merge-sort algorithm.
     * T(n) = O(n log(n)).
-    * S(n) = O(n log(n)).
+    * S(n) = O(n log(n)), where n is arr size.
     *
     * @tparam T must be totally ordered and it must have defined >,<,= operators.
     * @param arr array of elements.
@@ -230,7 +230,16 @@ namespace algo {
         }
     }
     
-
+    
+    /**
+    * Sorts array using count-sort algorithm.
+    * T(n) = O(n + m).
+    * S(n) = O(m), where n is arr size and m = Max(arr) - Min(arr)
+    *
+    * @tparam T must be totally ordered and it must have defined >,<,= operators.
+    * @param arr array of elements.
+    * @param len length of the array.
+    */
     void CountSort(int* arr, int len) {
         int min = ArrMin<int>(arr, len);
         int max = ArrMax<int>(arr, len);
@@ -296,16 +305,6 @@ namespace algo {
     class SinglyLL {
         public:
             SinglyLL(): length(0), first(NULL) {}
-            /*
-            SinglyLL(SinglyLL<T>* ll): length(0), first(ll) {
-                last = first;
-                while (last->next != NULL) {
-                    last = last->next;
-                    ++lengh;
-                }
-            }
-            ~SinglyLL() { Clear(); }
-            */
             
             /**
             * Inserts new element at the end of the linked list.
@@ -360,19 +359,7 @@ namespace algo {
                 --length;
                 return returnValue;
             }
-            /* 
-            // TODO
-            SinglyLL<T>* split(int count) {
-                SinglyLLNode<T>* pointer = root;
-                for(int i=0; i<count-1; ++i) root = pointer->next;
-                SinglyLLNode<T>* temp = pointer;
-                pointer = pointer->next;
-                temp->next = NULL;
-                last = temp;
-                length = count;
-                return new SingklyLL<T>*(pointer);
-            }
-            */
+
             /**
             * Removes all elements from list.
             * T(n) = O(n) where n is the number of stored elements.
@@ -736,7 +723,8 @@ namespace algo {
             AVLTreeNode<T>* root;
             AVLTreeNode<T>* end;
             int size;
-
+            
+            
             bool Find(T data, AVLTreeNode<T>* node) {
                 if (node == end) return false;
                 else if (node->data == data) return true;
@@ -943,7 +931,15 @@ namespace algo {
 
     template <typename T>
     class ABTreeNode;
-
+    
+    
+    /**
+    * Knot for AB trees
+    * 
+    * @param key Key stored in the node
+    * @param next Pointer to next knot)
+    * @param child Pointer to child node, all keys stored there are smaller than key
+    */
     template<typename T>
     struct ABTreeKnot{
         T key;
@@ -960,25 +956,37 @@ namespace algo {
         }
     };
     
+    /**
+    * Node for AB trees
+    */
     template <typename T>
     class ABTreeNode {
         public:
+            // constructor for creating root node;
             ABTreeNode(): key_count(0), last_layer(false), parent_node(NULL) {
                 list = new ABTreeKnot<T>(NULL);
             }
             
+            // constructor for creating first no-root node
             ABTreeNode(bool l):  key_count(0), last_layer(l) {
                 list = new ABTreeKnot<T>(NULL);
             }
             
+            // constructor for 
             ABTreeNode(ABTreeNode<T>* n, ABTreeKnot<T>* k): key_count(0), last_layer(true), parent_node(n), parent_knot(k) {
                 list = new ABTreeKnot<T>(NULL);
             }
-
+            
+            // constructor for crating node with data, used when splitting/merging
             ABTreeNode(int k, bool l, ABTreeNode<T>* p, ABTreeKnot<T>* li):
                 key_count(k), last_layer(l), parent_node(p), list(li), parent_knot(NULL) {}
            
-
+            
+            /**
+            * Tries to insert data into node.
+            * At success returns NULL
+            * If it fails return pointer to child that leads the right way
+            */
             ABTreeNode<T>* Insert(T data) {
                 // inserting into empty tree
                 if(list->next == NULL) {
@@ -1016,29 +1024,11 @@ namespace algo {
                 }
             }
 
-            void SplitChild(ABTreeKnot<T>* knot, ABTreeNode<T>* new_node, T new_key) {
-                // if this is the root node
-                if(parent_node == NULL) {
-                    // making new root node
-                    ABTreeKnot<T>* second_knot = new ABTreeKnot<T>(new_node); 
-                    ABTreeKnot<T>* first_knot = new ABTreeKnot<T>(new_key, second_knot, list->child);
-                    list->child = new ABTreeNode<T>(1, false, this, first_knot);    
-
-                    // setting right parent knots and nodes
-                    new_node->SetParentNode(list->child);
-                    new_node->SetParentKnot(second_knot);
-                    first_knot->child->SetParentNode(list->child);
-                    first_knot->child->SetParentKnot(first_knot);
-                }
-                // if its not
-                else {
-                    knot->next = new ABTreeKnot<T>(knot->key, knot->next, new_node);
-                    knot->key = new_key;
-                    new_node->SetParentKnot(knot->next);
-                    ++key_count;
-                }
-            }
-
+            
+            /**
+            * Splits the node into 2 halves.
+            * Used to handle overflow.
+            */
             void Split() {
                 // make new node with second half of knots
                 ABTreeKnot<T>* pt = list;
@@ -1065,6 +1055,12 @@ namespace algo {
                 key_count = key_count/2; 
             }
             
+            
+             
+            /**
+            * Used to handle underflow
+            * Tries to steal knot from brother node, if it fails, it merges this node with brother node.
+            */
             void Join(int a) {
                 // if the root is empty, delete it
                 if(parent_knot == NULL){
@@ -1194,8 +1190,6 @@ namespace algo {
                             if(!last_layer) {
                                 ABTreeKnot<T>* pt  = list;
                                 while(pt != NULL){
-                                    //pt->child->SetParentKnot(brother->GetParentKnot());
-                                    //pt->child->SetParentNode(brother->GetParentNode());
                                     pt->child->SetParentNode(brother);
                                     pt = pt->next;
                                 }
@@ -1213,29 +1207,20 @@ namespace algo {
                 }
             }
 
-
-            ABTreeKnot<T>* SearchList(T target, ABTreeNode<T>** next_node) {
-
-                ABTreeKnot<T>* pt = list;
-                while(pt->next != NULL) {
-                    if(pt->key == target) return pt;
-                    else if(pt->key > target) {
-                        *next_node = pt->child;
-                        return NULL;
-                    }
-                    pt = pt->next;
-                }
-                *next_node = pt->child;
-                return NULL;
-            }
-
+            
+            /** 
+            * Returns true if data is stored in sub tree with root in this node
+            */
             bool Find(T target) {
                 ABTreeNode<T>* next_node = NULL;
                 if(SearchList(target, &next_node) != NULL) return true;
                 else if(next_node == NULL) return false;
                 else return next_node->Find(target);
             }
-        
+            
+            /*
+            * Removes targeted node from sub tree with root in this node
+            */
             ABTreeNode<T>* Remove(T* target) {
                 // find way towards target
                 ABTreeNode<T>* next_node = NULL;
@@ -1299,8 +1284,57 @@ namespace algo {
             ABTreeKnot<T>* parent_knot;
             ABTreeNode<T>* parent_node;
             ABTreeKnot<T>* list;
+                
+            
+            /*
+            * Handles changes in this node when some of child nodes splits
+            */
+            void SplitChild(ABTreeKnot<T>* knot, ABTreeNode<T>* new_node, T new_key) {
+                // if this is the root node
+                if(parent_node == NULL) {
+                    // making new root node
+                    ABTreeKnot<T>* second_knot = new ABTreeKnot<T>(new_node); 
+                    ABTreeKnot<T>* first_knot = new ABTreeKnot<T>(new_key, second_knot, list->child);
+                    list->child = new ABTreeNode<T>(1, false, this, first_knot);    
 
-
+                    // setting right parent knots and nodes
+                    new_node->SetParentNode(list->child);
+                    new_node->SetParentKnot(second_knot);
+                    first_knot->child->SetParentNode(list->child);
+                    first_knot->child->SetParentKnot(first_knot);
+                }
+                // if its not
+                else {
+                    knot->next = new ABTreeKnot<T>(knot->key, knot->next, new_node);
+                    knot->key = new_key;
+                    new_node->SetParentKnot(knot->next);
+                    ++key_count;
+                }
+            }
+            
+            
+            /*
+            * Searches through knot list for target.
+            * On success returns pointer to right knot
+            * Of fail returns NULL and stores pointer to right child in next_node
+            */
+            ABTreeKnot<T>* SearchList(T target, ABTreeNode<T>** next_node) {
+                ABTreeKnot<T>* pt = list;
+                while(pt->next != NULL) {
+                    if(pt->key == target) return pt;
+                    else if(pt->key > target) {
+                        *next_node = pt->child;
+                        return NULL;
+                    }
+                    pt = pt->next;
+                }
+                *next_node = pt->child;
+                return NULL;
+            }
+            
+            /*
+            * Returns pointer to node previous to knot in args.
+            */ 
             ABTreeKnot<T>* FindPrev(ABTreeKnot<T>* knot) {
                 ABTreeKnot<T>* pt = list;
                 while(pt->next != knot) {
@@ -1310,29 +1344,55 @@ namespace algo {
             }
     };
 
+
+    /*
+    * AB Tree
+    * 
+    * @tparam T must be totally ordered and it must have defined >,<,= operators.
+    */
     template <typename T>
     class ABTree {
         public:
+            /* 
+            * a must be >=2 and b>=2*a-1
+            */
             ABTree(int _a, int _b): a(_a), b(_b), size(0) {
                 root = new ABTreeNode<T>();
                 root->GetList()->child = new ABTreeNode<T>(true);
                 root->GetList()->child->SetParentNode(root);
                 root->GetList()->child->SetParentKnot(NULL);
              }
-
+            
+            
+            /**
+            * Inserts new item into structure.
+            * T(n) = O(log(n)), where n is number of items stored in structure.
+            *
+            * @param data Item that will be inserted.
+            */
             void Insert(T data) { 
                 Insert(data, root->GetList()->child); 
                 ++size;
             }
-
+            
+            /**
+            * Removes item into structure.
+            * T(n) = O(log(n)), where n is number of items stored in structure.
+            *
+            * @param data Item that will be removed.
+            */
             void Remove(T data) { 
                 Remove(data, root->GetList()->child); 
                 --size;
             }
-
+            
+            /**
+            * Returns true if data is in the structure, false otherwise.
+            * T(n) = O(log(n)), where n is number of items stored in structure.
+            *
+            * @param data Item that will be searched for.
+            */
             bool Find(T data) { return root->GetList()->child->Find(data); }
-
-            void Clear() {}
 
         protected:
             int a;

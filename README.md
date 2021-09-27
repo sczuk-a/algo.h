@@ -1,6 +1,8 @@
 
 # Algoritmická knihovna `algo.h`
 
+---
+
 ## Funkce
 
 ```cpp
@@ -221,10 +223,50 @@ Vrátí `true`, pokud se `data` nachází ve stromu, jinak `false`.
 ### AB strom
 
 ```cpp
-ABTree<T>
+ABTree<T>(int _a, int _b)
 ```
 
+Parametr `T` musí mít definovaná operátory `>`,`<`, `=` a musí být pomocí nich lineárně uspořádaný.
+
+Vícecestný vyhledávací strom. Všechny vrcholy, vyjma kořene, mají `a` až `b` klíčů. Všechny extrení vrcholy jsou uložené v
+jedné vrstvě. Kořen má 1 až `b` klíčů.
+
+Při přidávání a odebírání vrcholů vlastnosti zachovávají pomocí rozdělování/spojování vrcholů, které mají moc/málo
+klíčů.
 
 
 
+```cpp
+void ABTree<T>::Insert(T data)
+```
 
+Vloží `data` do stromu. 
+
+Časová složitost: `O(log(n))`, kde `n` je počet prvků ve stromě.
+
+
+```cpp
+void ABTree<T>::Remove(T data)
+```
+
+Odstraní `data` ze stromu. 
+
+Časová složitost: `O(log(n))`, kde `n` je počet prvků ve stromě.
+
+
+```cpp
+bool ABTree<T>::Find(T data)
+```
+
+Vrátí `true`, pokud se `data` nacházejí ve stromě, jinak `false`. 
+
+Časová složitost: `O(log(n))`, kde `n` je počet prvků ve stromě.
+
+
+---
+
+Většina použitých algoritmů pochází z přednášek k předmětu NTIN060 na MFF UK.
+
+Antonín Beňa
+Vytvořeno jako zápočtový program pro předmět NPRG031 na MFF UK.
+LS 2020/21
