@@ -67,7 +67,7 @@ Prostorová složitost: `O(m)`, kde `n` značí počet prvků pole a `m = Max(ar
 
 ```cpp
 bool BinarySearch<int>(T* arr, T target, int beg, int end) 
-``!
+```
 Na vstupu obdrží setřízené pole `arr`, hledaný prvek `target` a 2 indexy. Vrátí `true`, pokud se hledaný prvek nachází v
 poli mei danými indexy, jinak `false`. 
 Parametr `T` musí mít definovaná operátory `>`,`<`, `=` a musí být pomocí nich lineárně uspořádaný.
